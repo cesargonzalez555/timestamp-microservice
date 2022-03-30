@@ -25,8 +25,15 @@ app.get("/api/hello", function (req, res) {
 });
 
 
+app.get("/api/:date", (req, res) => {
+  let date = new Date(req.params.date);
+  res.json({ 
+    unix: date.getTime(),
+    utc: date.toGMTString()
+  });
+});
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+var listener = app.listen(3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
