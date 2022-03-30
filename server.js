@@ -30,14 +30,7 @@ app.get("/api/:date", (req, res) => {
   let date;
   let response;
 
-  if (param.length === 0) {
-    date = new Date();
-    response = { 
-      unix: date.getTime(),
-      utc: date.toGMTString()
-    }
-  }
-  else if (isNaN(Number(param))) {
+  if (isNaN(Number(param))) {
     //No es int
     if (isNaN(Date.parse(param))) {
       response = { error : "Invalid Date" }
