@@ -26,11 +26,52 @@ app.get("/api/hello", function (req, res) {
 
 
 app.get("/api/:date", (req, res) => {
-  let date = new Date(req.params.date);
-  res.json({ 
-    unix: date.getTime(),
-    utc: date.toGMTString()
-  });
+  let param = req.params.date;
+  let date;
+  let response;
+
+  if (param.length === 0) {
+    date = new Date();
+    response = { 
+      unix: date.getTime(),
+      utc: date.toGMTString()
+    }
+  }
+  else if (isNaN(Number(param))) {
+    //No es int
+    if (isNaN(Date.parse(param))) {
+      response = { error : "Invalid Date" }
+    }
+    else {
+       date = new Date(param);
+       response = { 
+         unix: date.getTime(),
+         utc: date.toGMTString()
+       }
+    }
+  }
+  else {
+    //Es int
+    date = new Date(parseInt(param));
+    response = { 
+      unix: date.getTime(),
+      utc: date.toGMTString()
+    }
+  }
+  res.json(response);
+});
+
+app.get("/api/", (req, res) => {
+  let date;
+  let response;
+
+    date = new Date();
+    response = { 
+      unix: date.getTime(),
+      utc: date.toGMTString()
+    }
+
+  res.json(response);
 });
 
 // listen for requests :)
